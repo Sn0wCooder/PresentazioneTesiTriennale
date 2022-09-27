@@ -75,6 +75,16 @@
   \vskip0pt%
 }
 
+\setbeamertemplate{section page}
+{
+  \begin{centering}
+    \usebeamerfont{section title}Parte \thesection\par
+    \begin{beamercolorbox}[sep=16pt,center]{part title}
+      \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+
 \hypersetup{
 	colorlinks = false,
 	linkcolor = {red},

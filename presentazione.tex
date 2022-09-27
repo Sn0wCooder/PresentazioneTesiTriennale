@@ -1,4 +1,4 @@
-\documentclass[11pt,svgnames,smaller,aspectratio=169]{beamer}
+\documentclass[11pt,svgnames,smaller,aspectratio=169,italian]{beamer}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -29,7 +29,7 @@
 
 
 % ------------------ CHANGE FROM HERE ------------------
-\begin{frame}{Table of Contents}
+\begin{frame}{Indice}
 	\tableofcontents
 \end{frame}
 
@@ -42,44 +42,96 @@
 
 \begin{frame}{Introduzione}
 	\begin{itemize}
-		\item Lo scambio di informazioni di ogni tipo avviene attraverso la rete: è dunque di fondamentale importanza proteggere le informazioni che vengono scambiate
-		\item Si passeranno in rassegna i protocolli RSA e Diffie-Hellman (su campo primo e su curve ellittiche) 
+		\item Lo scambio di informazioni di ogni tipo avviene attraverso la rete: è dunque di fondamentale importanza proteggere le informazioni che vengono scambiate.
+		\item Si passeranno in rassegna i due protocolli più usati per lo scambio di chiave: RSA e Diffie-Hellman, quest'ultimo analizzato su campo primo e su curve ellittiche.
+		\item Lo scopo della tesi è quello di andare al di là di una trattazione teorica di questi due protocolli, concentrandosi piuttosto sull'aspetto pratico.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Lorem ipsum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RSA} %da rinominare
+\begin{frame}
+	\sectionpage
+	\centering
+\end{frame}
+
+\begin{frame}{La teoria di RSA} %da rinominare
 	\begin{itemize}
-		\item First item
-			\begin{itemize}
-				\item Sub item
-			\end{itemize}
-		\item Second item
-		\item Third item
+		\item È un cifrario asimmetrico. Sono dunque presenti due coppie di chiavi:
+		\begin{itemize}
+			\item $(e, n)$ utilizzata per cifrare (\emph{chiave pubblica});
+			\item $(d, n)$ utilizzata per decifrare (\emph{chiave privata}).
+		\end{itemize}
+		\item Si scelgono due numeri primi $p$ e $q$.
+		\item Si calcola $n = p \cdot q$ e $\phi(n) = (p - 1) \cdot (q - 1)$.
+		\item Si sceglie $e < \phi(n)$ tale che $gcd(e, n) = 1$.
+		\item Si calcola $d = e^{-1} \mod \phi(n)$.
+		\item Tutti i passi descritti possono essere svolti in tempo polinomiale.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Lorem ipsum}
-	\begin{enumerate}
-		\item First item
-		\item Second item
-		\item Third item
-	\end{enumerate}
-	La complessità è $O(\sqrt(n))$
+\begin{frame}{RSA: cifratura e decifrazione}
+	\begin{itemize}
+		\item Per cifrare un messaggio $m$ è sufficiente calcolare il crittogramma $c$ come:
+		\begin{equation*}
+			c = m^{e} \mod n.
+		\end{equation*}
+		\item Per ottenere il messaggio $m$ dato $c$ è sufficiente calcolarlo come:
+		\begin{equation*}
+			m = c^{d} \mod n.
+		\end{equation*}
+		
+	\end{itemize}
 	
-	\begin{equation}
-	O(n)
-	\end{equation}
 \end{frame}
 
-\begin{frame}[fragile]{Listings}
-	\begin{lstlisting}
-#include <stdio.h>
-
-int main(void) {
-	printf("Hello World\n");
-	return 0;
-}
-	\end{lstlisting}
+\begin{frame}{La sicurezza di RSA 1} %da riniominare?
+	\begin{itemize}
+		\item La sicurezza di RSA è garantita grazie al problema della fattorizzazione di un numero $n$ come prodotto di due fattori $p \cdot q$.
+		\item Per questo è importante scegliere due fattori primi molto grandi, tale che il modulo sia almeno $2048$ bit, meglio ancora se $3072$ bit.
+		\item Nel 1999 è stato fattorizzato RSA-512 in circa $7$ mesi utilizzando centinaia di calcolatori e impiegando l'equivalente di 8400 anni di CPU.
+			\begin{itemize}
+				\item Nel 2009 lo stesso attacco poteva essere effettuato in 83 giorni da un solo calcolatore.
+			\end{itemize}
+		\item Nel 2020 il numero più grande fattorizzato ha 829 bit, impiegando l'equivalente di 2700 anni di CPU.
+	\end{itemize}
 \end{frame}
+
+\begin{frame}{La sicurezza di RSA 2} %da riniominare?
+	\begin{itemize}
+		\item Ho implementato tre algoritmi per la fattorizzazione:
+			\begin{itemize}
+				\item \emph{Wheel factorization}: fondamentalmente un brute force sul numero, cercando i divisori;
+				\item \emph{Pollard's rho factorization}: di natura probabilistica, è quello più efficiente;
+				\item \emph{Fermat factorization}: è più efficiente se i due numeri primi sono vicini tra loro.
+			\end{itemize}
+		\item Ho fattorizzato 120 bit utilizzando l'algoritmo \emph{Pollard's rho} in poco meno di un'ora sul mio calcolatore.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
