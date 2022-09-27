@@ -1,15 +1,19 @@
 \documentclass[11pt,svgnames,smaller,aspectratio=169]{beamer}
 
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[italian]{babel}
+
+
 \usetheme{UniPi}
 
 % ------------------ CHANGE FROM HERE ------------------
-\title{Title}
-\author{Mario Rossi}
+\title{Crittografia a chiave pubblica: uno sguardo alle vulnerabilità \\ di RSA e Diffie-Hellman}
+\author{Leonardo Alfreducci}
 \institute[Università di Pisa]{Università di Pisa\\Dipartimento di Informatica}
 \date{Pisa, 7 ottobre 2022}
 % extra can be used for thesis supervisors and similar
-\extra{Supervisors\\Prof. Tizio Caio}
+\extra{Relatori\\Dott. Gaspare Ferraro\\Prof.ssa Anna Bernasconi}
 % ------------------ END CHANGE ------------------
 
 \usepackage{transparent}
@@ -29,11 +33,18 @@
 	\tableofcontents
 \end{frame}
 
-
-\section{Lists}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduzione}
 \begin{frame}
 	\sectionpage
 	\centering
+\end{frame}
+
+\begin{frame}{Introduzione}
+	\begin{itemize}
+		\item Lo scambio di informazioni di ogni tipo avviene attraverso la rete: è dunque di fondamentale importanza proteggere le informazioni che vengono scambiate
+		\item Si passeranno in rassegna i protocolli RSA e Diffie-Hellman (su campo primo e su curve ellittiche) 
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Lorem ipsum}
@@ -53,6 +64,11 @@
 		\item Second item
 		\item Third item
 	\end{enumerate}
+	La complessità è $O(\sqrt(n))$
+	
+	\begin{equation}
+	O(n)
+	\end{equation}
 \end{frame}
 
 \begin{frame}[fragile]{Listings}
