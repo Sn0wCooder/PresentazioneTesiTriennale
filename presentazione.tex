@@ -114,7 +114,18 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: Valori più utilizzati di $e$}
+\begin{frame}{RSA: L'esponente pubblico $e$}
+	\begin{itemize}
+		\item L'esponente pubblico non dovrebbe essere troppo grande per velocizzare la cifratura.
+		\item Con l'\emph{algoritmo delle quadrature successive}, l'operazione può essere svolta in tempo $O(\log_{2} e + hm(e))$, dove $hm(e)$ rappresenta il \emph{peso di Hamming}.
+			\begin{itemize}
+				\item Il peso di Hamming rappresenta il numero di simboli diversi dal simbolo $0$ dell'alfabeto utilizzato.
+			\end{itemize}
+		\item L'esponente pubblico, dato che non contiene alcuna informazione, viene generalmente riutilizzato per molteplici operazioni.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: Valori più utilizzati di $e$ con i rispettivi \emph{pesi di Hamming}}
 	\begin{table}[]
 	\centering
 	%\caption{Valori più usati di $e$ con i rispettivi \emph{Pesi di Hamming}~\cite{lenstra:publickeys}.}
@@ -139,8 +150,19 @@
 
 \end{frame}
 
-\begin{frame}{}
-	
+\begin{frame}{RSA: Generazione errata della chiave}
+	\begin{itemize}
+		\item L'esponente $e$ deve essere scelto coprimo con $\phi(n)$.
+		\item In una pre-release di Windows 10, non veniva effettuato il controllo che $gcd(e,\phi(n)) = 1$ nel momento in cui veniva scelto l'esponente pubblico.
+		\item Il corretto funzionamento di RSA è compromesso.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: la probabilità di scegliere l'esponente pubblico errato}
+	\begin{itemize}
+		\item Anche se non viene effettuato il controllo che $gcd(e,\phi(n)) = 1$, non è detto che l'uguaglianza non sia comunque verificata.
+		\item 
+	\end{itemize}
 \end{frame}
 
 
