@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage[italian]{babel}
-
+\usepackage{tikz-cd,amsmath}
 
 \usetheme{UniPi}
 
@@ -54,13 +54,13 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{RSA} %da rinominare
+\section{RSA}
 \begin{frame}
 	\sectionpage
 	\centering
 \end{frame}
 
-\begin{frame}{La teoria di RSA} %da rinominare
+\begin{frame}{RSA: la teoria dietro al protocollo}
 	\begin{itemize}
 		\item È un cifrario asimmetrico. Sono dunque presenti due coppie di chiavi:
 		\begin{itemize}
@@ -90,7 +90,7 @@
 	
 \end{frame}
 
-\begin{frame}{La sicurezza di RSA 1} %da riniominare?
+\begin{frame}{RSA: uno sguardo alla sicurezza}
 	\begin{itemize}
 		\item La sicurezza di RSA è garantita grazie al problema della fattorizzazione di un numero $n$ come prodotto di due fattori $p \cdot q$.
 		\item Per questo è importante scegliere due fattori primi molto grandi, tale che il modulo sia almeno $2048$ bit, meglio ancora se $3072$ bit.
@@ -102,7 +102,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{La sicurezza di RSA 2} %da riniominare?
+\begin{frame}{RSA: un'analisi sperimentale sulla sicurezza}
 	\begin{itemize}
 		\item Sono stati implementati tre algoritmi per la fattorizzazione:
 			\begin{itemize}
@@ -114,7 +114,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: L'esponente pubblico $e$}
+\begin{frame}{RSA: l'esponente pubblico $e$}
 	\begin{itemize}
 		\item L'esponente pubblico non dovrebbe essere troppo grande per velocizzare la cifratura.
 		\item Con l'\emph{algoritmo delle quadrature successive}, l'operazione può essere svolta in tempo $O(\log_{2} e + hm(e))$, dove $hm(e)$ rappresenta il \emph{peso di Hamming}.
@@ -125,7 +125,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: Valori più utilizzati di $e$ con i rispettivi \emph{pesi di Hamming}}
+\begin{frame}{RSA: valori più utilizzati di $e$ con i rispettivi \emph{pesi di Hamming}}
 	\begin{table}[]
 	\centering
 	%\caption{Valori più usati di $e$ con i rispettivi \emph{Pesi di Hamming}~\cite{lenstra:publickeys}.}
@@ -150,24 +150,167 @@
 
 \end{frame}
 
-\begin{frame}{RSA: Generazione errata della chiave}
+\begin{frame}{RSA: gli schemi di padding}
+	\begin{itemize}
+		\item Prima di essere cifrato mediante RSA, ogni messaggio viene modificato con gli schemi di padding.
+		\item Gli schemi di padding sono importanti in crittografia:
+			\begin{itemize}
+				\item aggiungono una componente di casualità;
+				\item non rendono possibile un recupero anche parziale del messaggio, fissandone univocamente la lunghezza.
+			\end{itemize}
+		\item Due degli schemi più utilizzati sono \emph{PKCS1 v1.5} ed \emph{OAEP}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: malleabilità senza il padding}
+	\begin{itemize}
+		\item Il padding aiuta ad evitare che RSA sia \emph{malleabile}.
+		%\item RSA senza l'utilizzo del padding è \emph{malleabile}.
+			\begin{itemize}
+				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, che non utilizza il padding, può sostituire $c' = c \cdot 2^{e} \mod n$.
+				\item Quando $c'$ verrà decifrato, si otterrà $2m$ invece che l'originario $m$.
+			\end{itemize}
+		\item Con il padding questa modifica molto semplice non è più possibile.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: generazione errata della chiave}
 	\begin{itemize}
 		\item L'esponente $e$ deve essere scelto coprimo con $\phi(n)$.
 		\item In una pre-release di Windows 10, non veniva effettuato il controllo che $gcd(e,\phi(n)) = 1$ nel momento in cui veniva scelto l'esponente pubblico.
-		\item Il corretto funzionamento di RSA è compromesso.
+		\item Il corretto funzionamento di RSA è compromesso e la decifrazione non è più possibile.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{RSA: la probabilità di scegliere l'esponente pubblico errato}
 	\begin{itemize}
-		\item Anche se non viene effettuato il controllo che $gcd(e,\phi(n)) = 1$, non è detto che l'uguaglianza non sia comunque verificata.
+		\item Ma quanto spesso questo problema si verifica nella pratica?
+		\item Per $e = 65537$, la probabilità $P$ che $e | (p - 1)$ \emph{oppure} $e | (q - 1)$ è data da
+			\begin{equation*}
+				P < \frac{1}{32000}
+			\end{equation*}
+			\begin{itemize}
+				\item Il caso $e^{i} | (p - 1) \cdot (q - 1)$ con $i > 2$ non verrà trattato.
+			\end{itemize}
+		\item Windows 10 è utilizzato da oltre un miliardo di dispositivi.
+			\begin{itemize}
+				\item Più di 30000 utenti coinvolti.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: il recupero dei messaggi erroneamente cifrati}
+	\begin{itemize}
+		\item Se la chiave viene generata in modo errato ad ogni crittogramma potrebbero corrispondere $e$ messaggi che lo generino.
+		\item E se i messaggi perduti sono importanti?
+		\item Il recupero dei messaggi è esponenziale nella dimensione di $e$.
+			\begin{itemize}
+				\item Per fortuna, $e$ viene generalmente scelto basso.
+				\item Per $e = 65537$ il recupero dei messaggi con un moderno calcolatore avviene in circa 30 secondi.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: scartare i messaggi durante il recupero}
+	\begin{itemize}
+		\item Come si possono scartare i messaggi automaticamente?
+		\item Analizzando il contesto.
+		\item Analizzando i messaggi che rispettano le caratteristiche degli schemi di padding:
+			\begin{itemize}
+				\item con \emph{OAEP}, ci si aspetta solo un risultato (il messaggio originario);
+				\item con \emph{PKCS1 v1.5} ci si aspetta almeno un falso positivo.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: esponente pubblico corto}
+	\begin{itemize}
+		\item Un bug imponeva $e = 1$.
+		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
+		\item In generale moduli corti possono facilitare gli attacchi basati sui reticoli.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: moduli ripetuti}
+	\begin{itemize}
+		\item È comune che uno stesso modulo $n$ sia condiviso tra più host.
+			\begin{itemize}
+				\item Il 4\% dei moduli usati in HTTPS risulta condiviso tra più host.
+				\item Il 60\% delle chiavi SSH e il 65\% di quelle usate per IPv4 risultano condivise.
+				\item Non è una vulnerabilità se gli host non sono correlati.
+			\end{itemize}
+		\item Molti router e dispositivi della stessa linea di un produttore condividono lo stesso modulo: si possono decifrare i testi a vicenda.
+		\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{RSA: un fattore in comune}
+	\begin{itemize}
+		\item Se un primo è condiviso tra due moduli $n_{1}$ e $n_{2}$ è possibile trovare facilmente l'altro primo come $gcd(n_{1}, n_{2})$.
+		\item Esistono dataset pubblici contenenti moduli RSA, per verificare se uno dei due primi è condiviso.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{RSA: vulnerabilità DROWN}
+	\begin{itemize}
+		\item Nella sua prima versione sfruttava il semplice schema di padding \emph{PKCS1 v1.5}.
+		\item Si può effettuare se il server manda un errore se il padding è errato.
+		\item Per questo attacco sono necessarie milioni di query.
+			\begin{itemize}
+				\item Sfruttando il messaggio di errore un attaccante può restringere i possibili valori assunti da $m$.
+			\end{itemize}
+		\item Si stima che nel 2016 il 33\% dei siti HTTPS fossero vulnerabili a questo attacco.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: conclusioni}
+	\begin{itemize}
+		\item Al giorno d'oggi esistono alternative migliori per lo scambio della chiave.
+		\item RSA non è sicuro per utilizzi post-quantistici.
+			\begin{itemize}
+				\item L'\emph{algoritmo di Shor} sui computer quantistici permette di calcolare la fattorizzazione in tempo polinomiale probabilistico.
+			\end{itemize}
+		\item Ridurre l'utilizzo di RSA è difficile per ragioni di retrocompatibilità.
+			\begin{itemize}
+				\item Di TLS v1.3 è stata ritardata l'uscita perché al suo interno ha eliminato lo scambio di chiavi basato su RSA.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diffie-Hellman}
+\begin{frame}
+	\sectionpage
+	\centering
+\end{frame}
+
+\begin{frame}{Diffie-Hellman: la teoria dietro al protocollo}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
 		\item 
 	\end{itemize}
 \end{frame}
 
 
+\begin{frame}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
 
 
+\begin{frame}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
 
 
 
