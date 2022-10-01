@@ -119,7 +119,7 @@
 \begin{frame}{RSA: l'esponente pubblico $e$}
 	\begin{itemize}
 		\item L'esponente pubblico non dovrebbe essere troppo grande per velocizzare la cifratura.
-		\item Con l'\emph{algoritmo delle quadrature successive}, l'operazione può essere svolta in tempo $O(\log_{2} e + hm(e))$, dove $hm(e)$ rappresenta il \emph{peso di Hamming}.
+		\item Con l'\emph{Algoritmo delle quadrature successive}, l'operazione può essere svolta in tempo $O(\log_{2} e + hm(e))$, dove $hm(e)$ rappresenta il \emph{peso di Hamming}.
 			\begin{itemize}
 				\item Il peso di Hamming rappresenta il numero di simboli diversi dal simbolo $0$ dell'alfabeto utilizzato.
 			\end{itemize}
@@ -267,12 +267,14 @@
 	\end{itemize}
 \end{frame}
 
+%cross-protocol attack?
+
 \begin{frame}{RSA: conclusioni}
 	\begin{itemize}
 		\item Al giorno d'oggi esistono alternative migliori per lo scambio della chiave.
 		\item RSA non è sicuro per utilizzi post-quantistici.
 			\begin{itemize}
-				\item L'\emph{algoritmo di Shor} sui computer quantistici permette di calcolare la fattorizzazione in tempo polinomiale probabilistico.
+				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare la fattorizzazione in tempo polinomiale probabilistico.
 			\end{itemize}
 		\item Ridurre l'utilizzo di RSA è difficile per ragioni di retrocompatibilità.
 			\begin{itemize}
@@ -311,7 +313,7 @@
 	\begin{itemize}
 		\item Un attaccante per decifrare la comunicazione dovrebbe calcolare il logaritmo discreto:
 			\begin{equation*}
-				a = \log_{g} n_{A}	\quad\text{\emph{oppure}}	\quad b = \log_{g} n_{B}
+				a = \log_{g} n_{A}	\quad\text{\emph{oppure}}	\quad b = \log_{g} n_{B}.
 			\end{equation*}
 			\begin{itemize}
 				\item Ad oggi non sono noti algoritmi eseguire questa operazione in tempo polinomiale.
@@ -387,15 +389,25 @@
 			\end{itemize}
 		\item Diffie-Hellman non è sicuro per utilizzi post-quantistici.
 			\begin{itemize}
-				\item L'\emph{algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto in tempo polinomiale probabilistico.
+				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto in tempo polinomiale probabilistico.
 			\end{itemize}
 	\end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diffie-Hellman su curve ellittiche}
+\begin{frame}
+	\sectionpage
+	\centering
+\end{frame}
 
-\begin{frame}{}
+\begin{frame}{Crittografia su curve ellittiche: una panoramica}
 	\begin{itemize}
-		\item Comparazione sulla sicurezza di algoritmi
+		\item La crittografia su curve ellittiche, a parità di sicurezza, richiede chiavi di molti meno bit.
+			\begin{itemize}
+				\item Di conseguenza, le operazioni sono più veloci.
+			\end{itemize}
+		\item Si comparano nella seguente tabella i bit necessari a parità di sicurezza nei tre protocolli descritti.
 	\end{itemize}
 	\begin{table}
 		\centering
@@ -411,10 +423,86 @@
 	\end{table}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Crittografia su curve ellittiche: il protocollo Diffie-Hellman}
 	\begin{itemize}
-		\item 
+		\item Diffie-Hellman si presta molto bene all'applicazione su curve ellittiche.
+		\item È stato adottato su larga scala negli ultimi 10 anni.
+		\item Ad oggi è utilizzato da più del 65\% degli scambi di chiave.
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su curve ellittiche: la teoria dietro al protocollo}
+	\begin{itemize}
+		\item $A$ e $B$, che vogliono comunicare, si devono accordare su due parametri:
+			\begin{itemize}
+				\item una curva ellittica prima $E_{p}(a, b) = \{(x, y) \in \mathds{Z}_{p}^{2} | y^{2} \mod p = (x^{3} + a \cdot x + b) \mod p \} \cup \{0\}$;
+				\item un generatore $G$ primo facente parte di un sottogruppo della curva di ordine $n$.
+			\end{itemize}
+		\item Per lo scambio di chiave:
+			\begin{itemize}
+				\item $A$ e $B$ scelgono due interi casuali $a, b$ tali che $a, b < n$;
+				\item $A$ calcola $P_{A} = a \cdot G$, $B$ calcola $P_{B} = b \cdot G$;
+				\item $A$ e $B$ si scambiano rispettivamente $P_{A}$ ed $P_{B}$;
+				\item $A$ calcola $k = a \cdot P_{B}$, $B$ calcola $k = b \cdot P_{A}$;
+				\item $k$ è condivisa poiché $k = n_{A} \cdot n_{B} \cdot G$.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su curve ellittiche: uno sguardo alla sicurezza}
+	\begin{itemize}
+		\item La sicurezza è basata sulla difficoltà di calcolare, dati due punti $P$ e $Q$, il più piccolo intero $k$ tale che $P = k \cdot Q$.
+			\begin{itemize}
+				\item Chiamato \emph{problema della risoluzione del logaritmo discreto su curve ellittiche}.
+				\item Il migliore attacco ad oggi è \emph{Pollard rho} che ha complessità $O(2^{b/2})$.
+				\item Un attaccante per compromettere la comunicazione dovrebbe calcolare i più piccoli valori $a$ \emph{oppure} $b$ tali che, rispettivamente:
+					\begin{equation*}
+						P_{A} = a \cdot G	\quad\text{\emph{oppure}}	\quad P_{B} = b \cdot G.
+					\end{equation*}
+			\end{itemize}
+		\item Si fa affidamento a curve sicure, scelte da una lista del NIST.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su curve ellittiche: i parametri della curva \emph{P-384}}
+	\begin{itemize}
+		\item È una delle curve ellittiche più utilizzate e raccomandate.
+		\item $p = 2^{284} - 2^{128} - 2^{96} + 2^{32} - 1$;
+		\item $a = -3$;
+		\item $b =  27580193559959705877849011840389048093056905856361568521$\textbackslash \\
+		$428707301988689241309860865136260764883745107765439761230575$, avente la proprietà che $2^{383} < b < 2^{384}$;
+		 \item $N \simeq 2^{384} - 2^{190}$, che rappresenta l'\emph{ordine della curva}, ovvero il numero di punti che ammette al suo interno.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su curve ellittiche: attacco con curva invalida}
+	\begin{itemize}
+		\item Attacco simile a quello descritto per DH su campo primo.
+		\item Se il valore inviato non giace sulla curva ed ha un ordine basso $q_{i}$, un attaccante può calcolare il segreto della vittima modulo $q_{i}$.
+		\item Se la vittima ricicla il suo segreto per molteplici connessioni, effettuando questo attacco più volte si può recuperare l'intero segreto.
+		\item Si dovrebbe controllare che il punto inviato giaccia sulla curva corretta.
+			\begin{itemize}
+				\item Nel 2015 tre di otto popolari librerie TLS non effettuavano questo controllo.
+				\item Si è stimato che nel 2015 lo 0,8\% dei siti HTTPS non effettuavano questo controllo.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su curve ellittiche: conclusioni}
+	\begin{itemize}
+		\item La crittografia su curve ellittiche risulta ad oggi essere il miglior metodo per lo scambio di chiavi.
+		\item Anche il protocollo Diffie-Hellman su curve ellittiche non è sicuro per utilizzi post-quantistici.
+			\begin{itemize}
+				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto per le curve ellittiche in tempo polinomiale probabilistico.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusioni}
+\begin{frame}
+	\sectionpage
+	\centering
 \end{frame}
 
 \begin{frame}{}
@@ -429,6 +517,11 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
 
 
 
@@ -443,5 +536,6 @@
 
 
 
+% mettere solo una conclusione alla fine?? anzichè conclusione rsa, dh ed ecdh
 
 \end{document}
