@@ -3,7 +3,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage[italian]{babel}
-\usepackage{tikz-cd,amsmath}
+\usepackage{dsfont}
+\usepackage{multirow}
+%\usepackage{tikz-cd,amsmath}
 
 \usetheme{UniPi}
 
@@ -129,7 +131,7 @@
 	\begin{table}[]
 	\centering
 	%\caption{Valori più usati di $e$ con i rispettivi \emph{Pesi di Hamming}~\cite{lenstra:publickeys}.}
-\begin{tabular}{  M{1cm} 	M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}] | M{1.3cm} M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}]  | M{1cm} M{0.5cm} S[table-format=2.2, table-space-text-post = \si{\meter}] } 
+	\begin{tabular}{  M{1cm} 	M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}] | M{1.3cm} M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}]  | M{1cm} M{0.5cm} S[table-format=2.2, table-space-text-post = \si{\meter}] } 
 	%\begin{tabular}{  cccccccccc } 
 	\multicolumn{3}{c|}{\emph{X.509}} & \multicolumn{3}{c|}{\emph{PGP}} & \multicolumn{3}{c}{\emph{Combinati}} \\ \hline
 	\multicolumn{1}{c}{$e$}           &\multicolumn{1}{c}{$hm(e)$} 	&\multicolumn{1}{c |}{$\%$}           & \multicolumn{1}{c}{$e$}   &\multicolumn{1}{c}{$hm(e)$}           & \multicolumn{1}{c |}{$\%$}      & \multicolumn{1}{c}{$e$}     &\multicolumn{1}{c}{$hm(e)$}       & \multicolumn{1}{c}{$\%$}             \\ \hline
@@ -280,24 +282,134 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Diffie-Hellman}
+\section{Diffie-Hellman su campo primo}
 \begin{frame}
 	\sectionpage
 	\centering
 \end{frame}
 
-\begin{frame}{Diffie-Hellman: la teoria dietro al protocollo}
+\begin{frame}{DH su campo primo: la teoria dietro al protocollo}
 	\begin{itemize}
-		\item 
+		\item È un protocollo per lo scambio di chiave.
+		\item $A$ e $B$, che vogliono comunicare, si devono accordare su due parametri:
+			\begin{itemize}
+				\item un numero primo $p$;
+				\item un generatore $g$ di $\mathds{Z}_{p}^{*}$.
+			\end{itemize}
+		\item Per lo scambio di chiave:
+			\begin{itemize}
+				\item $A$ e $B$ scelgono due interi casuali $a, b$ tali che $1 < a, b < p - 1$;
+				\item $A$ calcola $n_{A} = g^{a} \mod p$, $B$ calcola $n_{B} = g^{b} \mod p$;
+				\item $A$ e $B$ si scambiano rispettivamente $n_{A}$ ed $n_{B}$;
+				\item $A$ calcola $k = n_{B}^{a} \mod p$, $B$ calcola $k = n_{A}^{b} \mod p$;
+				\item $k$ è condivisa poiché $k = g^{a \cdot b} \mod p$.
+			\end{itemize}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{DH su campo primo: uno sguardo alla sicurezza}
 	\begin{itemize}
-		\item 
+		\item Un attaccante per decifrare la comunicazione dovrebbe calcolare il logaritmo discreto:
+			\begin{equation*}
+				a = \log_{g} n_{A}	\quad\text{\emph{oppure}}	\quad b = \log_{g} n_{B}
+			\end{equation*}
+			\begin{itemize}
+				\item Ad oggi non sono noti algoritmi eseguire questa operazione in tempo polinomiale.
+				\item L'attacco migliore è l'\emph{Index calculus}, che ha complessità $O(2^{\sqrt{b \cdot \ln b}})$.
+			\end{itemize}
+		\item $p$ dal 2013 dovrebbe essere almeno di 2048 bit.
+			\begin{itemize}
+				\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
+				\item Il calcolo dellogaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
+			\end{itemize}
+		\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
 	\end{itemize}
 \end{frame}
 
+
+\begin{frame}{DH su campo primo: accordo sui parametri del gruppo}
+	\begin{itemize}
+		\item Negli ultimi standard i parametri del gruppo vengono scelti da una lista.
+		\item Se l'ordine $q$ di $g$ ha sottogruppi $q_{i}$ si può effettuare il calcolo in modulo per i sottogruppi e infine usare il \emph{Teorema cinese del resto}.
+			\begin{itemize}
+				\item I primi ritenuti sicuri hanno la forma $p = 2q + 1$, con $q$ primo, e si usa un generatore $g$ del sottogruppo di ordine $q$.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su campo primo: moduli non primi}
+	\begin{itemize}
+		\item In alcune implementazioni $p$ non è un primo.
+		\item È una vulnerabilità solo se $p$ ha fattori primi molto piccoli.
+			\begin{itemize}
+				\item Si potrebbe usare il \emph{Teorema cinese del resto}.
+				\item Il calcolo del logaritmo discreto è difficile tanto quanto il problema della fattorizzazione.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+%%pre calcolo sul numero primo??
+
+\begin{frame}{DH su campo primo: valori da evitare}
+	\begin{itemize}
+		\item Sottogruppi di ordine $1$ e $2$ sono da evitare come scambi di chiave.
+		\item Se $g$ genera l'intero gruppo, allora sono presenti i sottogruppi di ordine $1$ e $2$.
+			\begin{itemize}
+				\item Se viene scambiato il valore $1$, il segreto condiviso non può che essere $1$.
+				\item Se i primi sono generati come spiegato precedentemente per essere \emph{sicuri} ($p = 2q + 1$) allora non contengono questi valori.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{DH su campo primo: un bit insicuro}
+	\begin{itemize}
+		\item Con il sottogruppo di ordine $2$ la situazione è più grave.
+			\begin{itemize}
+				\item $B$ è un host che ricicla la stessa chiave Diffie-Hellman per molteplici connessioni.
+				\item $A$ (l'attaccante) manda a $B$ il valore di scambio $n_{A} = -1$.
+				\item La chiave condivisa non può che essere $1$ o $-1$.
+				\item Avendo modo di verificare quale delle due sia la chiave risultante, $A$ può capire se il segreto di $B$ è un numero pari o dispari, facendo perdere così un bit di sicurezza a $B$.
+			\end{itemize}
+		\item Nel 2016 il 3\% dei server HTTPS e il 34\% dei server SSH accettava $-1$ come valore di scambio.
+		\item Questo principio può essere esteso a sottogruppi più grandi.
+			\begin{itemize}
+				\item Attacco \emph{Lim-Lee}. %%LO TOLGO?
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{DH su campo primo: conclusioni}
+	\begin{itemize}
+		\item La crittografia su curve ellittiche risulta migliore.
+			\begin{itemize}
+				\item I maggiori browser hanno da tempo abbandonato l'utilizzo dello scambio di chiavi basato su Diffie-Hellman su campo primo.
+			\end{itemize}
+		\item Diffie-Hellman non è sicuro per utilizzi post-quantistici.
+			\begin{itemize}
+				\item L'\emph{algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto in tempo polinomiale probabilistico.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{}
+	\begin{itemize}
+		\item Comparazione sulla sicurezza di algoritmi
+	\end{itemize}
+	\begin{table}
+		\centering
+		\begin{tabular}{c|c}
+			\begin{tabular}[c]{@{}c@{}}RSA e DH\\ (bit del modulo)\end{tabular} & \begin{tabular}[c]{@{}c@{}}ECC\\ (bit dell'ordine)\end{tabular}  \\ 
+			\hline
+			1024                                                                & 160                                                              \\
+			2048                                                                & 224                                                              \\
+			3072                                                                & 256                                                              \\
+			7680                                                                & 384                                                              \\
+			15360                                                               & 512                                                             
+		\end{tabular}
+	\end{table}
+\end{frame}
 
 \begin{frame}{}
 	\begin{itemize}
@@ -305,6 +417,11 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{}
 	\begin{itemize}
