@@ -64,7 +64,7 @@
 
 \begin{frame}{RSA: la teoria dietro al protocollo}
 	\begin{itemize}
-		\item È un cifrario asimmetrico. Sono dunque presenti due coppie di chiavi:
+		\item È un cifrario asimmetrico. È dunque presente una coppia di chiavi:
 		\begin{itemize}
 			\item $(e, n)$ utilizzata per cifrare (\emph{chiave pubblica});
 			\item $(d, n)$ utilizzata per decifrare (\emph{chiave privata}).
@@ -73,11 +73,11 @@
 		\item Si calcola $n = p \cdot q$ e $\phi(n) = (p - 1) \cdot (q - 1)$.
 		\item Si sceglie $e < \phi(n)$ tale che $gcd(e, n) = 1$.
 		\item Si calcola $d = e^{-1} \mod \phi(n)$.
-		\item Tutti i passi descritti possono essere svolti in tempo polinomiale.
+		\item Tutte le operazioni descritte possono essere svolte in tempo polinomiale.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: cifratura e decifrazione}
+\begin{frame}{RSA: cifratura e decifratura}
 	\begin{itemize}
 		\item Per cifrare un messaggio $m$ è sufficiente calcolare il crittogramma $c$ come:
 		\begin{equation*}
@@ -180,7 +180,7 @@
 	\begin{itemize}
 		\item L'esponente $e$ deve essere scelto coprimo con $\phi(n)$.
 		\item In una pre-release di Windows 10, non veniva effettuato il controllo che $gcd(e,\phi(n)) = 1$ nel momento in cui veniva scelto l'esponente pubblico.
-		\item Il corretto funzionamento di RSA è compromesso e la decifrazione non è più possibile.
+		\item Il corretto funzionamento di RSA è compromesso e la decifratura non è più possibile.
 	\end{itemize}
 \end{frame}
 
@@ -227,7 +227,7 @@
 
 \begin{frame}{RSA: esponente pubblico corto}
 	\begin{itemize}
-		\item Un bug imponeva $e = 1$.
+		\item Un bug di un'implementazione imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
 		\item In generale moduli corti possono facilitare gli attacchi basati sui reticoli.
 	\end{itemize}
@@ -249,7 +249,7 @@
 
 \begin{frame}{RSA: un fattore in comune}
 	\begin{itemize}
-		\item Se un primo è condiviso tra due moduli $n_{1}$ e $n_{2}$ è possibile trovare facilmente l'altro primo come $gcd(n_{1}, n_{2})$.
+		\item Se un primo è condiviso tra due moduli $n_{1}$ e $n_{2}$ è possibile trovarlo facilmente come $gcd(n_{1}, n_{2})$.
 		\item Esistono dataset pubblici contenenti moduli RSA, per verificare se uno dei due primi è condiviso.
 	\end{itemize}
 \end{frame}
@@ -261,7 +261,7 @@
 		\item Si può effettuare se il server manda un errore se il padding è errato.
 		\item Per questo attacco sono necessarie milioni di query.
 			\begin{itemize}
-				\item Sfruttando il messaggio di errore un attaccante può restringere i possibili valori assunti da $m$.
+				\item Sfruttando il messaggio di errore, un attaccante può restringere i possibili valori assunti da $m$.
 			\end{itemize}
 		\item Si stima che nel 2016 il 33\% dei siti HTTPS fossero vulnerabili a questo attacco.
 	\end{itemize}
@@ -322,7 +322,7 @@
 		\item $p$ dal 2013 dovrebbe essere almeno di 2048 bit.
 			\begin{itemize}
 				\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
-				\item Il calcolo dellogaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
+				\item Il calcolo del logaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
 			\end{itemize}
 		\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
 	\end{itemize}
@@ -552,7 +552,7 @@
 
 
 
-
+%togliere tre alg fattorizzazione
 % mettere solo una conclusione alla fine?? anzichè conclusione rsa, dh ed ecdh
 
 \end{document}
