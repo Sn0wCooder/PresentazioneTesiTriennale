@@ -130,9 +130,7 @@
 \begin{frame}{RSA: valori più utilizzati di $e$ con i rispettivi \emph{pesi di Hamming}}
 	\begin{table}[]
 	\centering
-	%\caption{Valori più usati di $e$ con i rispettivi \emph{Pesi di Hamming}~\cite{lenstra:publickeys}.}
 	\begin{tabular}{  M{1cm} 	M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}] | M{1.3cm} M{0.5cm}  S[table-format=2.2, table-space-text-post = \si{\meter}]  | M{1cm} M{0.5cm} S[table-format=2.2, table-space-text-post = \si{\meter}] } 
-	%\begin{tabular}{  cccccccccc } 
 	\multicolumn{3}{c|}{\emph{X.509}} & \multicolumn{3}{c|}{\emph{PGP}} & \multicolumn{3}{c}{\emph{Combinati}} \\ \hline
 	\multicolumn{1}{c}{$e$}           &\multicolumn{1}{c}{$hm(e)$} 	&\multicolumn{1}{c |}{$\%$}           & \multicolumn{1}{c}{$e$}   &\multicolumn{1}{c}{$hm(e)$}           & \multicolumn{1}{c |}{$\%$}      & \multicolumn{1}{c}{$e$}     &\multicolumn{1}{c}{$hm(e)$}       & \multicolumn{1}{c}{$\%$}             \\ \hline
 	65537       & 2		& 98.4921     & 65537          	& 2		& 48.8501 	& 65537        	& 2			& 95.4933        \\
@@ -147,7 +145,6 @@
 	65535       & 16		& 0.0011       & $2^{127} + 3$  	& 3		& 0.0248  		& 257          	& 2			& 0.0241         \\
 	altri       	& -		& 0.0083       & altri          		& -		& 0.6807  		& altri        	& -			& 0.0774        
 	\end{tabular}
-	%\label{tabella:valorie}
 	\end{table}
 
 \end{frame}
@@ -167,7 +164,6 @@
 \begin{frame}{RSA: malleabilità senza il padding}
 	\begin{itemize}
 		\item Il padding aiuta ad evitare che RSA sia \emph{malleabile}.
-		%\item RSA senza l'utilizzo del padding è \emph{malleabile}.
 			\begin{itemize}
 				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, che non utilizza il padding, può sostituire $c' = c \cdot 2^{e} \mod n$.
 				\item Quando $c'$ verrà decifrato, si otterrà $2m$ invece che l'originario $m$.
@@ -266,8 +262,6 @@
 		\item Si stima che nel 2016 il 33\% dei siti HTTPS fossero vulnerabili a questo attacco.
 	\end{itemize}
 \end{frame}
-
-%cross-protocol attack?
 
 \begin{frame}{RSA: conclusioni}
 	\begin{itemize}
@@ -509,8 +503,7 @@
 	\begin{itemize}
 		\item La crittografia è in continuo studio ed evoluzione: ciò che oggi è considerato sicuro domani potrebbe non esserlo.
 			\begin{itemize}
-				\item La fattorizzazione e il calcolo del logaritmo discreto sono problemi che ad oggi non conoscono algoritmi polinomiali, ma potrebbero esistere.
-				%\item I problemi della fattorizzazione e del calcolo del logaritmo discreto ad oggi non conoscono algoritmi polinomiali, ma in futuro magari esisteranno.
+				\item La fattorizzazione e il calcolo del logaritmo discreto sono problemi che ad oggi non conoscono algoritmi polinomiali per il loro calcolo, ma potrebbero esistere.
 				\item È importante e fondamentale restare aggiornati con gli studi.
 			\end{itemize}
 		\item A luglio 2022 il NIST ha pubblicato gli algoritmi resistenti ai computer quantistici.
@@ -552,7 +545,7 @@
 
 
 
-%togliere tre alg fattorizzazione
+%togliere tre alg fattorizzazione oppure spiegarli
 % mettere solo una conclusione alla fine?? anzichè conclusione rsa, dh ed ecdh
 
 \end{document}
