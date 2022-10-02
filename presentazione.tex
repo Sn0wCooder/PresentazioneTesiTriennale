@@ -187,9 +187,9 @@
 			\begin{equation*}
 				P < \frac{1}{32000}
 			\end{equation*}
-			\begin{itemize}
-				\item Il caso $e^{i} | (p - 1) \cdot (q - 1)$ con $i > 2$ non verrà trattato.
-			\end{itemize}
+			%\begin{itemize}
+			%	\item Il caso $e^{i} | (p - 1) \cdot (q - 1)$ con $i > 2$ non verrà trattato.
+			%\end{itemize}
 		\item Windows 10 è utilizzato da oltre un miliardo di dispositivi.
 			\begin{itemize}
 				\item Più di 30000 utenti coinvolti.
@@ -200,7 +200,7 @@
 \begin{frame}{RSA: il recupero dei messaggi erroneamente cifrati}
 	\begin{itemize}
 		\item Se la chiave viene generata in modo errato ad ogni crittogramma potrebbero corrispondere $e$ messaggi che lo generino.
-		\item E se i messaggi perduti sono importanti?
+		\item Se i messaggi perduti sono importanti?
 		\item Il recupero dei messaggi è esponenziale nella dimensione di $e$.
 			\begin{itemize}
 				\item Per fortuna, $e$ viene generalmente scelto basso.
@@ -213,11 +213,11 @@
 	\begin{itemize}
 		\item Come si possono scartare i messaggi automaticamente?
 		\item Analizzando il contesto.
-		\item Analizzando i messaggi che rispettano le caratteristiche degli schemi di padding:
-			\begin{itemize}
-				\item con \emph{OAEP}, ci si aspetta solo un risultato (il messaggio originario);
-				\item con \emph{PKCS1 v1.5} ci si aspetta almeno un falso positivo.
-			\end{itemize}
+		\item Analizzando i messaggi che rispettano le caratteristiche degli schemi di padding.
+			%\begin{itemize}
+			%	\item con \emph{OAEP}, ci si aspetta solo un risultato (il messaggio originario);
+			%	\item con \emph{PKCS1 v1.5} ci si aspetta almeno un falso positivo.
+			%\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -225,7 +225,7 @@
 	\begin{itemize}
 		\item Un bug di un'implementazione imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
-		\item In generale moduli corti possono facilitare gli attacchi basati sui reticoli.
+		%\item In generale moduli corti possono facilitare gli attacchi basati sui reticoli.
 	\end{itemize}
 \end{frame}
 
@@ -247,33 +247,6 @@
 	\begin{itemize}
 		\item Se un primo è condiviso tra due moduli $n_{1}$ e $n_{2}$ è possibile trovarlo facilmente come $gcd(n_{1}, n_{2})$.
 		\item Esistono dataset pubblici contenenti moduli RSA, per verificare se uno dei due primi è condiviso.
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{RSA: vulnerabilità DROWN}
-	\begin{itemize}
-		\item Nella sua prima versione sfruttava il semplice schema di padding \emph{PKCS1 v1.5}.
-		\item Si può effettuare se il server manda un errore se il padding è errato.
-		\item Per questo attacco sono necessarie milioni di query.
-			\begin{itemize}
-				\item Sfruttando il messaggio di errore, un attaccante può restringere i possibili valori assunti da $m$.
-			\end{itemize}
-		\item Si stima che nel 2016 il 33\% dei siti HTTPS fossero vulnerabili a questo attacco.
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{RSA: conclusioni}
-	\begin{itemize}
-		\item Al giorno d'oggi esistono alternative migliori per lo scambio della chiave.
-		\item RSA non è sicuro per utilizzi post-quantistici.
-			\begin{itemize}
-				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare la fattorizzazione in tempo polinomiale probabilistico.
-			\end{itemize}
-		\item Ridurre l'utilizzo di RSA è difficile per ragioni di retrocompatibilità.
-			\begin{itemize}
-				\item Di TLS v1.3 è stata ritardata l'uscita perché al suo interno ha eliminato lo scambio di chiavi basato su RSA.
-			\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -319,17 +292,7 @@
 				\item Il calcolo del logaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
 			\end{itemize}
 		\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{DH su campo primo: accordo sui parametri del gruppo}
-	\begin{itemize}
 		\item Negli ultimi standard i parametri del gruppo vengono scelti da una lista.
-		\item Se l'ordine $q$ di $g$ ha sottogruppi $q_{i}$ si può effettuare il calcolo in modulo per i sottogruppi e infine usare il \emph{Teorema cinese del resto}.
-			\begin{itemize}
-				\item I primi ritenuti sicuri hanno la forma $p = 2q + 1$, con $q$ primo, e si usa un generatore $g$ del sottogruppo di ordine $q$.
-			\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -339,12 +302,10 @@
 		\item È una vulnerabilità solo se $p$ ha fattori primi molto piccoli.
 			\begin{itemize}
 				\item Si potrebbe usare il \emph{Teorema cinese del resto}.
-				\item Il calcolo del logaritmo discreto è difficile tanto quanto il problema della fattorizzazione.
+				\item Il calcolo del logaritmo discreto si presume sia difficile tanto quanto il problema della fattorizzazione.
 			\end{itemize}
 	\end{itemize}
 \end{frame}
-
-%%pre calcolo sul numero primo??
 
 \begin{frame}{DH su campo primo: valori da evitare}
 	\begin{itemize}
@@ -352,7 +313,7 @@
 		\item Se $g$ genera l'intero gruppo, allora sono presenti i sottogruppi di ordine $1$ e $2$.
 			\begin{itemize}
 				\item Se viene scambiato il valore $1$, il segreto condiviso non può che essere $1$.
-				\item Se i primi sono generati come spiegato precedentemente per essere \emph{sicuri} ($p = 2q + 1$) allora non contengono questi valori.
+				%\item Se i primi sono generati come spiegato precedentemente per essere \emph{sicuri} ($p = 2q + 1$) allora non contengono questi valori.
 			\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -367,24 +328,10 @@
 				\item Avendo modo di verificare quale delle due sia la chiave risultante, $A$ può capire se il segreto di $B$ è un numero pari o dispari, facendo perdere così un bit di sicurezza a $B$.
 			\end{itemize}
 		\item Nel 2016 il 3\% dei server HTTPS e il 34\% dei server SSH accettava $-1$ come valore di scambio.
-		\item Questo principio può essere esteso a sottogruppi più grandi.
-			\begin{itemize}
-				\item Attacco \emph{Lim-Lee}. %%LO TOLGO?
-			\end{itemize}
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{DH su campo primo: conclusioni}
-	\begin{itemize}
-		\item La crittografia su curve ellittiche risulta migliore.
-			\begin{itemize}
-				\item I maggiori browser hanno da tempo abbandonato l'utilizzo dello scambio di chiavi basato su Diffie-Hellman su campo primo.
-			\end{itemize}
-		\item Diffie-Hellman non è sicuro per utilizzi post-quantistici.
-			\begin{itemize}
-				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto in tempo polinomiale probabilistico.
-			\end{itemize}
+		%\item Questo principio può essere esteso a sottogruppi più grandi.
+		%	\begin{itemize}
+		%		\item Attacco \emph{Lim-Lee}. %%LO TOLGO?
+		%	\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -412,7 +359,7 @@
 			2048                                                                & 224                                                              \\
 			3072                                                                & 256                                                              \\
 			7680                                                                & 384                                                              \\
-			15360                                                               & 512                                                             
+			15360                                                              & 512                                                             
 		\end{tabular}
 	\end{table}
 \end{frame}
@@ -482,16 +429,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{DH su curve ellittiche: conclusioni}
-	\begin{itemize}
-		\item La crittografia su curve ellittiche risulta ad oggi essere il miglior metodo per lo scambio di chiavi.
-		\item Anche il protocollo Diffie-Hellman su curve ellittiche non è sicuro per utilizzi post-quantistici.
-			\begin{itemize}
-				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare il logaritmo discreto per le curve ellittiche in tempo polinomiale probabilistico.
-			\end{itemize}
-	\end{itemize}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusioni}
 \begin{frame}
@@ -501,6 +438,12 @@
 
 \begin{frame}{Conclusioni}
 	\begin{itemize}
+		\item RSA è molto più soggetto ad errori di implementazione e per questo si cerca di non utilizzarlo.
+		\item La strada è sempre più verso le curve ellittiche.
+		\item I protocolli presentati non sono sicuri per utilizzi post-quantistici.
+			\begin{itemize}
+				\item L'\emph{Algoritmo di Shor} sui computer quantistici permette di calcolare la fattorizzazione e il logaritmo discreto per le curve ellittiche in tempo polinomiale probabilistico.
+			\end{itemize}
 		\item La crittografia è in continuo studio ed evoluzione: ciò che oggi è considerato sicuro domani potrebbe non esserlo.
 			\begin{itemize}
 				\item La fattorizzazione e il calcolo del logaritmo discreto sono problemi che ad oggi non conoscono algoritmi polinomiali per il loro calcolo, ma potrebbero esistere.
@@ -546,6 +489,6 @@
 
 
 %togliere tre alg fattorizzazione oppure spiegarli
-% mettere solo una conclusione alla fine?? anzichè conclusione rsa, dh ed ecdh
+% togliere introduzione e dirla solo a voce?
 
 \end{document}
