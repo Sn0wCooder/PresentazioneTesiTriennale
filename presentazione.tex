@@ -119,11 +119,25 @@
 			35          	& 0.1410       & 19             		& 2.4774  		& 3            	& 0.3578         \\
 			altri       	& 0.2264       & altri          		& 1.6271  		& altri        	& 0.588        
 		\end{tabular}
+		%prima colonna dopo il 35: 100-(98,4921+0,7633+0,3772+0,1410) = 0,2264
+		%seconda colonna dopo il 19: 100-(48,8501+39,5027+7,5727+2,4474) = 1,6271
+		%terza colonna dopo il 3: 100-(95,4933+3,1035+0,4574+0,3578) = 0,588
 	\end{table}
 	\begin{itemize}
 		\item Viene generalmente scelto basso per velocizzare la cifratura.
 		\item Un bug di un'implementazione imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{RSA: malleabilità}
+	\begin{itemize}
+		\item RSA è \emph{malleabile}.
+			\begin{itemize}
+				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, che non utilizza il padding, può sostituire $c' = c \cdot 2^{e} \mod n$.
+				\item Quando $c'$ verrà decifrato, si otterrà $2m$ invece che l'originario $m$.
+			\end{itemize}
+		\item Con il padding questa modifica molto semplice non è più possibile.
 	\end{itemize}
 \end{frame}
 
@@ -139,17 +153,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: malleabilità senza il padding}
-	\begin{itemize}
-		\item Il padding aiuta ad evitare che RSA sia \emph{malleabile}.
-			\begin{itemize}
-				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, che non utilizza il padding, può sostituire $c' = c \cdot 2^{e} \mod n$.
-				\item Quando $c'$ verrà decifrato, si otterrà $2m$ invece che l'originario $m$.
-			\end{itemize}
-		\item Con il padding questa modifica molto semplice non è più possibile.
-	\end{itemize}
-\end{frame}
-
 \begin{frame}{RSA: generazione errata della chiave}
 	\begin{itemize}
 		\item L'esponente $e$ deve essere scelto coprimo con $\phi(n)$.
@@ -161,7 +164,7 @@
 \begin{frame}{RSA: la probabilità di scegliere l'esponente pubblico errato}
 	\begin{itemize}
 		\item Ma quanto spesso questo problema si verifica nella pratica?
-		\item Per $e = 65537$, la probabilità $P$ che $e | (p - 1)$ \emph{oppure} $e | (q - 1)$ è data da
+		\item Per $e = 65537$, la probabilità $P$ che $e$ venga scelto in modo errato è data da
 			\begin{equation*}
 				P < \frac{1}{32000}
 			\end{equation*}
@@ -258,7 +261,7 @@
 			\end{itemize}
 		\item $p$ dal 2013 dovrebbe essere almeno di 2048 bit.
 			\begin{itemize}
-				\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
+				%\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
 				\item Il calcolo del logaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
 			\end{itemize}
 		\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
@@ -282,7 +285,9 @@
 		\item Sottogruppi di ordine $1$ e $2$ sono da evitare come scambi di chiave.
 		\item Se $g$ genera l'intero gruppo, allora sono presenti i sottogruppi di ordine $1$ e $2$.
 			\begin{itemize}
+				\item Se i primi i parametri una determinata struttura, ovvero $p = 2q + 1$, e $g$ genera un sottogruppo di ordine $q$, questo non accade.
 				\item Se viene scambiato il valore $1$, il segreto condiviso non può che essere $1$.
+				\item Più grave il caso in cui venga scambiato il valore $-1$.
 				%\item Se i primi sono generati come spiegato precedentemente per essere \emph{sicuri} ($p = 2q + 1$) allora non contengono questi valori.
 			\end{itemize}
 	\end{itemize}
@@ -461,8 +466,12 @@
 % - scopo della tesi: aspetto implementativo
 
 
-% pesi di hamming?
-% togliere tre alg fattorizzazione oppure spiegarli
 % togliere introduzione e dirla solo a voce?
+% togliere slide un fattore in comune?
+
+
+%DIFFIE-HELLMAN SU CAMPO PRIMO:
+% togliere attacchi men in the middle e parametri scelti da una lista?
+% togliere nel 2015...?
 
 \end{document}
