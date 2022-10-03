@@ -104,18 +104,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{RSA: un'analisi sperimentale sulla sicurezza}
-	\begin{itemize}
-		\item Sono stati implementati tre algoritmi per la fattorizzazione:
-			\begin{itemize}
-				\item \emph{Wheel factorization}: fondamentalmente un brute force sul numero, cercando i divisori;
-				\item \emph{Pollard's rho factorization}: di natura probabilistica, è quello più efficiente;
-				\item \emph{Fermat factorization}: è più veloce se i due numeri primi sono vicini tra loro.
-			\end{itemize}
-		\item Sono stati fattorizzati moduli da 120 bit utilizzando l'algoritmo \emph{Pollard's rho} in poco meno di un'ora su un moderno calcolatore.
-	\end{itemize}
-\end{frame}
-
 \begin{frame}{RSA: l'esponente pubblico $e$}
 	\begin{itemize}
 		\item L'esponente pubblico non dovrebbe essere troppo grande per velocizzare la cifratura.
@@ -484,7 +472,11 @@
 
 
 
-
+%INTRODUZIONE:
+% - una grande quantità di dati passa attraverso la rete
+% - è importante proteggerli in modo efficiente
+% - si passano in rassegna due protocolli
+% - scopo della tesi: aspetto implementativo
 
 
 
