@@ -106,12 +106,10 @@
 
 \begin{frame}{RSA: l'esponente pubblico $e$}
 	\begin{itemize}
-		\item L'esponente pubblico non dovrebbe essere troppo grande per velocizzare la cifratura.
-		\item Con l'\emph{Algoritmo delle quadrature successive}, l'operazione può essere svolta in tempo $O(\log_{2} e + hm(e))$, dove $hm(e)$ rappresenta il \emph{peso di Hamming}.
-			\begin{itemize}
-				\item Il peso di Hamming rappresenta il numero di simboli diversi dal simbolo $0$ dell'alfabeto utilizzato.
-			\end{itemize}
 		\item L'esponente pubblico, dato che non contiene alcuna informazione, viene generalmente riutilizzato per molteplici operazioni.
+		\item Viene generalmente scelto basso per velocizzare la cifratura.
+		\item Un bug di un'implementazione imponeva $e = 1$.
+		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
 	\end{itemize}
 \end{frame}
 
@@ -206,14 +204,6 @@
 			%	\item con \emph{OAEP}, ci si aspetta solo un risultato (il messaggio originario);
 			%	\item con \emph{PKCS1 v1.5} ci si aspetta almeno un falso positivo.
 			%\end{itemize}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{RSA: esponente pubblico corto}
-	\begin{itemize}
-		\item Un bug di un'implementazione imponeva $e = 1$.
-		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
-		%\item In generale moduli corti possono facilitare gli attacchi basati sui reticoli.
 	\end{itemize}
 \end{frame}
 
@@ -472,15 +462,15 @@
 
 
 
-%INTRODUZIONE:
+% INTRODUZIONE:
 % - una grande quantità di dati passa attraverso la rete
 % - è importante proteggerli in modo efficiente
 % - si passano in rassegna due protocolli
 % - scopo della tesi: aspetto implementativo
 
 
-
-%togliere tre alg fattorizzazione oppure spiegarli
+% pesi di hamming?
+% togliere tre alg fattorizzazione oppure spiegarli
 % togliere introduzione e dirla solo a voce?
 
 \end{document}
