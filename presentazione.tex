@@ -134,7 +134,7 @@
 	\begin{itemize}
 		\item RSA è \emph{malleabile}.
 			\begin{itemize}
-				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, che non utilizza il padding, può sostituire $c' = c \cdot 2^{e} \mod n$.
+				\item Ad esempio, se un attaccante conosce $c = m^{e} \mod n$, può sostituire $c' = c \cdot 2^{e} \mod n$.
 				\item Quando $c'$ verrà decifrato, si otterrà $2m$ invece che l'originario $m$.
 			\end{itemize}
 		\item Con il padding questa modifica molto semplice non è più possibile.
@@ -212,14 +212,6 @@
 			\end{itemize}
 		\item Molti router e dispositivi della stessa linea di un produttore condividono lo stesso modulo: si possono decifrare i testi a vicenda.
 		\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{RSA: un fattore in comune}
-	\begin{itemize}
-		\item Se un primo è condiviso tra due moduli $n_{1}$ e $n_{2}$ è possibile trovarlo facilmente come $gcd(n_{1}, n_{2})$.
-		\item Esistono dataset pubblici contenenti moduli RSA, per verificare se uno dei due primi è condiviso.
 	\end{itemize}
 \end{frame}
 
@@ -463,7 +455,7 @@
 
 
 % togliere introduzione e dirla solo a voce?
-% togliere slide un fattore in comune?
+% togliere schemi di padding più usati?
 
 
 %DIFFIE-HELLMAN SU CAMPO PRIMO:
