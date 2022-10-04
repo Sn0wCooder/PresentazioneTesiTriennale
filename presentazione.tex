@@ -124,7 +124,7 @@
 		%terza colonna dopo il 3: 100-(95,4933+3,1035+0,4574+0,3578) = 0,588
 	\end{table}
 	\begin{itemize}
-		\item Viene generalmente scelto basso per velocizzare la cifratura.
+		%\item Viene generalmente scelto basso per velocizzare la cifratura.
 		\item Un bug di un'implementazione imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
 	\end{itemize}
@@ -149,7 +149,7 @@
 				\item aggiungono una componente di casualità;
 				\item non rendono possibile un recupero anche parziale del messaggio, fissandone univocamente la lunghezza.
 			\end{itemize}
-		\item Due degli schemi più utilizzati sono \emph{PKCS1 v1.5} ed \emph{OAEP}.
+		%\item Due degli schemi più utilizzati sono \emph{PKCS1 v1.5} ed \emph{OAEP}.
 	\end{itemize}
 \end{frame}
 
@@ -187,18 +187,7 @@
 				\item Per fortuna, $e$ viene generalmente scelto basso.
 				\item Per $e = 65537$ il recupero dei messaggi con un moderno calcolatore avviene in circa 30 secondi.
 			\end{itemize}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{RSA: scartare i messaggi durante il recupero}
-	\begin{itemize}
-		\item Come si possono scartare i messaggi automaticamente?
-		\item Analizzando il contesto.
-		\item Analizzando i messaggi che rispettano le caratteristiche degli schemi di padding.
-			%\begin{itemize}
-			%	\item con \emph{OAEP}, ci si aspetta solo un risultato (il messaggio originario);
-			%	\item con \emph{PKCS1 v1.5} ci si aspetta almeno un falso positivo.
-			%\end{itemize}
+		\item Per scartare i messaggi errati, si possono utilizzare gli schemi di padding.
 	\end{itemize}
 \end{frame}
 
@@ -211,7 +200,7 @@
 				\item Non è una vulnerabilità se gli host non sono correlati.
 			\end{itemize}
 		\item Molti router e dispositivi della stessa linea di un produttore condividono lo stesso modulo: si possono decifrare i testi a vicenda.
-		\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
+		%\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
 	\end{itemize}
 \end{frame}
 
@@ -249,15 +238,15 @@
 			\end{equation*}
 			\begin{itemize}
 				\item Ad oggi non sono noti algoritmi eseguire questa operazione in tempo polinomiale.
-				\item L'attacco migliore è l'\emph{Index calculus}, che ha complessità $O(2^{\sqrt{b \cdot \ln b}})$.
+				\item L'attacco migliore è l'\emph{Index calculus}, che ha complessità $O(2^{\sqrt{b \cdot \ln b}})$ per chiavi di $b$ bit.
 			\end{itemize}
 		\item $p$ dal 2013 dovrebbe essere almeno di 2048 bit.
 			\begin{itemize}
 				%\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
 				\item Il calcolo del logaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
 			\end{itemize}
-		\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
-		\item Negli ultimi standard i parametri del gruppo vengono scelti da una lista.
+		%\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
+		%\item Negli ultimi standard i parametri del gruppo vengono scelti da una lista.
 	\end{itemize}
 \end{frame}
 
@@ -455,12 +444,20 @@
 
 
 % togliere introduzione e dirla solo a voce?
-% togliere schemi di padding più usati?
+% togliere scartare messaggi durante il recupero e mettere solo un item
+
+
+
+
 
 
 %DIFFIE-HELLMAN SU CAMPO PRIMO:
 % togliere attacchi men in the middle e parametri scelti da una lista?
-% togliere nel 2015...?
+
+% primi sicuri perché generano sottogruppi più grandi dove è possibile scegliere il segreto in un range più ampio, brute force più difficile
+
+
+
 
 % DIFFIE-HELLMAN SU CURVE ELLITTICHE
 % togliere la spiegazione e dire solo che è uguale a quella di DH su campo primo? mah secondo me è utile avercela anche se poi la skippo
