@@ -7,6 +7,15 @@
 \usepackage{multirow}
 %\usepackage{tikz-cd,amsmath}
 
+
+\newcommand{\extrabegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\extraend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
 \usetheme{UniPi}
 
 %-------------------TABLE------------------------------
@@ -125,7 +134,7 @@
 	\end{table}
 	\begin{itemize}
 		%\item Viene generalmente scelto basso per velocizzare la cifratura.
-		\item Un bug di un'implementazione imponeva $e = 1$.
+		\item Un bug di un'implementazione di SaltStack imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
 	\end{itemize}
 \end{frame}
@@ -156,7 +165,7 @@
 \begin{frame}{RSA: generazione errata della chiave}
 	\begin{itemize}
 		\item L'esponente $e$ deve essere scelto coprimo con $\phi(n)$.
-		\item In una pre-release di Windows 10, non veniva effettuato il controllo che $gcd(e,\phi(n)) = 1$ nel momento in cui veniva scelto l'esponente pubblico.
+		\item In una pre-release di Windows 10, nel 2019, non veniva effettuato il controllo che $gcd(e,\phi(n)) = 1$ nel momento in cui veniva scelto l'esponente pubblico.
 		\item Il corretto funzionamento di RSA è compromesso e la decifratura non è più possibile.
 	\end{itemize}
 \end{frame}
@@ -199,7 +208,7 @@
 				\item Il 60\% delle chiavi SSH e il 65\% di quelle usate per IPv4 risultano condivise.
 				\item Non è una vulnerabilità se gli host non sono correlati.
 			\end{itemize}
-		\item Molti router e dispositivi della stessa linea di un produttore condividono lo stesso modulo: si possono decifrare i testi a vicenda.
+		\item Nel 2013, molti router e dispositivi della stessa linea di un produttore condividevano lo stesso modulo: si potevano decifrare i testi a vicenda.
 		%\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
 	\end{itemize}
 \end{frame}
@@ -353,7 +362,7 @@
 				\item Chiamato \emph{problema della risoluzione del logaritmo discreto su curve ellittiche}.
 				\item Il migliore attacco ad oggi è \emph{Pollard rho} che ha complessità $O(2^{b/2})$.
 			\end{itemize}
-		\item Si fa affidamento a curve sicure, scelte da una lista del NIST.
+		\item Si fa affidamento a curve sicure, scelte da una lista del NIST (National Institute of Standards and Technology).
 	\end{itemize}
 \end{frame}
 
@@ -401,9 +410,9 @@
 				\item La fattorizzazione e il calcolo del logaritmo discreto sono problemi che ad oggi non conoscono algoritmi polinomiali per il loro calcolo, ma potrebbero esistere.
 				\item È importante e fondamentale restare aggiornati con gli studi.
 			\end{itemize}
-		\item A luglio 2022 il NIST ha pubblicato gli algoritmi resistenti ai computer quantistici.
+		\item A luglio 2022 il NIST ha pubblicato quattro algoritmi resistenti ai computer quantistici.
 			\begin{itemize}
-				\item Un mese dopo questi algoritmi sono stati violati utilizzando dei classici calcolatori.
+				\item Un mese dopo uno di questi algoritmi è stato violato utilizzando un classico calcolatore.
 			\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -414,11 +423,37 @@
 		\centering
 		\Large
 		Grazie per l'attenzione!
- 	\end{frame}
+\end{frame}
 
-\begin{frame}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\extrabegin
+
+\section*{Extra}
+\begin{frame}
+	\sectionpage
+	\centering
+\end{frame}
+
+\begin{frame}{Extra: attacco con curva invalida}
 	\begin{itemize}
-		\item 
+		\item Si supponga che $A$ sia l'attaccante e $B$ la vittima.
+		\item Si supponga che $A$ mandi il punto $P_{A}$ come valore di scambio, avente un basso ordine 5.
+			\begin{itemize}
+				\item Questo significa che $5 \cdot P_{A} = O$.
+			\end{itemize}
+		\item La chiave $k$ non potrà che assumere uno tra i seguenti valori:
+			\begin{equation*}
+				1 \cdot P_{A} \quad\text{\emph{}}\quad 2 \cdot P_{A} \quad\text{\emph{}}\quad 3 \cdot P_{A} \quad\text{\emph{}}\quad 4 \cdot P_{A} \quad\text{\emph{}}\quad 5 \cdot P_{A} = O.
+			\end{equation*}
+		\item Si supponga che $k = 3 \cdot P_{A}$.
+		\item Allora $n_{B}$ avrà necessariamente la forma $n_{B} = 3 + 5 \cdot l$, per qualche $l$.
+			\begin{itemize}
+				\item La chiave $k$ può essere scritta come
+					\begin{equation*}
+						k = (3 + 5 \cdot l) \cdot P_{A}  = 3 \cdot P_{A} + 5 \cdot P_{A} \cdot l = 3 \cdot P_{A}.
+					\end{equation*}
+			\end{itemize}
+		\item $A$ è riuscito a calcolare $n_{B} \mod 5 = 3$.
 	\end{itemize}
 \end{frame}
 
@@ -428,7 +463,7 @@
 	\end{itemize}
 \end{frame}
 
-
+\extraend
 
 
 
@@ -438,6 +473,7 @@
 
 % INTRODUZIONE:
 % - una grande quantità di dati passa attraverso la rete
+% crittografia simmetrica
 % - è importante proteggerli in modo efficiente
 % - si passano in rassegna due protocolli
 % - scopo della tesi: aspetto implementativo
