@@ -133,8 +133,7 @@
 		%terza colonna dopo il 3: 100-(95,4933+3,1035+0,4574+0,3578) = 0,588
 	\end{table}
 	\begin{itemize}
-		%\item Viene generalmente scelto basso per velocizzare la cifratura.
-		\item Un bug di un'implementazione di SaltStack imponeva $e = 1$.
+		\item Un bug di un'implementazione di Python SaltStack imponeva $e = 1$.
 		\item Si deve prestare attenzione che intervenga la riduzione in modulo.
 	\end{itemize}
 \end{frame}
@@ -158,7 +157,6 @@
 				\item aggiungono una componente di casualità;
 				\item non rendono possibile un recupero anche parziale del messaggio, fissandone univocamente la lunghezza.
 			\end{itemize}
-		%\item Due degli schemi più utilizzati sono \emph{PKCS1 v1.5} ed \emph{OAEP}.
 	\end{itemize}
 \end{frame}
 
@@ -177,9 +175,6 @@
 			\begin{equation*}
 				P < \frac{1}{32000}
 			\end{equation*}
-			%\begin{itemize}
-			%	\item Il caso $e^{i} | (p - 1) \cdot (q - 1)$ con $i > 2$ non verrà trattato.
-			%\end{itemize}
 		\item Windows 10 è utilizzato da oltre un miliardo di dispositivi.
 			\begin{itemize}
 				\item Più di 30000 utenti coinvolti.
@@ -209,7 +204,6 @@
 				\item Non è una vulnerabilità se gli host non sono correlati.
 			\end{itemize}
 		\item Nel 2013, molti router e dispositivi della stessa linea di un produttore condividevano lo stesso modulo: si potevano decifrare i testi a vicenda.
-		%\item A causa di problemi con il PRNG e con i seed iniziali molte chiavi sono risultate uguali.
 	\end{itemize}
 \end{frame}
 
@@ -251,11 +245,8 @@
 			\end{itemize}
 		\item $p$ dal 2013 dovrebbe essere almeno di 2048 bit.
 			\begin{itemize}
-				%\item Nel 2015 quasi tutti i server HTTPS, IPSec e SSH supportavano primi a 1024 bit.
 				\item Il calcolo del logaritmo discreto con $p$ a 530 bit è stato effettuato nel 2007.
 			\end{itemize}
-		%\item Questo protocollo è soggetto ad attacchi \emph{man-in-the-middle}.
-		%\item Negli ultimi standard i parametri del gruppo vengono scelti da una lista.
 	\end{itemize}
 \end{frame}
 
@@ -275,7 +266,6 @@
 		\item Sottogruppi di ordine $1$ e $2$ sono da evitare come scambi di chiave.
 		\item Se $g$ genera l'intero gruppo, allora sono presenti i sottogruppi di ordine $1$ e $2$.
 			\begin{itemize}
-				\item Se i primi i parametri una determinata struttura, ovvero $p = 2q + 1$, e $g$ genera un sottogruppo di ordine $q$, questo non accade.
 				\item Se viene scambiato il valore $1$, il segreto condiviso non può che essere $1$.
 				\item Più grave il caso in cui venga scambiato il valore $-1$.
 				%\item Se i primi sono generati come spiegato precedentemente per essere \emph{sicuri} ($p = 2q + 1$) allora non contengono questi valori.
@@ -293,10 +283,8 @@
 				\item Avendo modo di verificare quale delle due sia la chiave risultante, $A$ può capire se il segreto di $B$ è un numero pari o dispari, facendo perdere così un bit di sicurezza a $B$.
 			\end{itemize}
 		\item Nel 2016 il 3\% dei server HTTPS e il 34\% dei server SSH accettava $-1$ come valore di scambio.
-		%\item Questo principio può essere esteso a sottogruppi più grandi.
-		%	\begin{itemize}
-		%		\item Attacco \emph{Lim-Lee}. %%LO TOLGO?
-		%	\end{itemize}
+		%\item Se i primi i parametri una determinata struttura, ovvero $p = 2q + 1$, e $g$ genera un sottogruppo di ordine $q$, questo non accade.
+		\item I parametri di gruppo ritenuti \emph{sicuri}, ovvero con primi del tipo $p = 2q + 1$ e con $g$ che genera sottogruppi di ordine $q$, comprendono solo valori di ordine elevato.
 	\end{itemize}
 \end{frame}
 
@@ -479,23 +467,18 @@
 % - scopo della tesi: aspetto implementativo
 
 
-% togliere introduzione e dirla solo a voce?
 % togliere scartare messaggi durante il recupero e mettere solo un item
 
 
 
-
-
-
-%DIFFIE-HELLMAN SU CAMPO PRIMO:
-% togliere attacchi men in the middle e parametri scelti da una lista?
-
+%DIFFIE-HELLMA SU CAMPO PRIMO
 % primi sicuri perché generano sottogruppi più grandi dove è possibile scegliere il segreto in un range più ampio, brute force più difficile
 
 
 
 
 % DIFFIE-HELLMAN SU CURVE ELLITTICHE
-% togliere la spiegazione e dire solo che è uguale a quella di DH su campo primo? mah secondo me è utile avercela anche se poi la skippo
+% ricordarsi il discorso della difficoltà di calcolare l'ordine di un punto per l'invalid curve attack
+
 
 \end{document}
