@@ -350,18 +350,23 @@
 				\item Chiamato \emph{problema della risoluzione del logaritmo discreto su curve ellittiche}.
 				\item Il migliore attacco ad oggi è \emph{Pollard rho} che ha complessità $O(2^{b/2})$.
 			\end{itemize}
-		\item Si fa affidamento a curve sicure, scelte da una lista del NIST (National Institute of Standards and Technology).
+		\item Si fa affidamento a curve sicure, scelte da una lista del NIST (National Institute of Standards and Technology) o di altri istituti accreditati.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{DH su curve ellittiche: i parametri della curva \emph{P-384}}
+\begin{frame}{DH su curve ellittiche: i parametri della curva \emph{secp256k1}}
 	\begin{itemize}
 		\item È una delle curve ellittiche più utilizzate e raccomandate.
-		\item $p = 2^{284} - 2^{128} - 2^{96} + 2^{32} - 1$;
-		\item $a = -3$;
-		\item $b =  27580193559959705877849011840389048093056905856361568521$\textbackslash \\
-		$428707301988689241309860865136260764883745107765439761230575$, avente la proprietà che $2^{383} < b < 2^{384}$;
-		 \item $N \simeq 2^{384} - 2^{190}$, che rappresenta l'\emph{ordine della curva}, ovvero il numero di punti che ammette al suo interno.
+			\begin{itemize}
+				\item Ne viene fatto uso anche per i bitcoin.
+			\end{itemize}
+		\item $p = 2^{256} - 2^{32} - 2^{9} - 2^{8} - 2^{7} - 2^{6} - 2^{4} - 1$;
+		\item $a = 0$;
+		\item $b =  7$;
+		\item $G = 02 79BE667E F9DCBBAC 55A06295 CE870B07$\textbackslash \\
+		$029BFCDB 2DCE28D9 59F2815B 16F81798$;
+		\item $N = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE BAAEDCE6 AF48A03B BFD25E8C D0364141$, che rappresenta l'\emph{ordine della curva}, ovvero il numero di punti che ammette al suo interno.
+		%\item $N \simeq 2^{384} - 2^{190}$, che rappresenta l'\emph{ordine della curva}, ovvero il numero di punti che ammette al suo interno.
 	\end{itemize}
 \end{frame}
 
@@ -442,12 +447,6 @@
 					\end{equation*}
 			\end{itemize}
 		\item $A$ è riuscito a calcolare $n_{B} \mod 5 = 3$.
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{}
-	\begin{itemize}
-		\item 
 	\end{itemize}
 \end{frame}
 
